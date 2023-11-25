@@ -58,6 +58,7 @@ My personal solutions of the [Advent of Code 2023](https://adventofcode.com/2023
       <td></td>
       <td><a href="https://github.com/andi-makes/aoc2021">aoc2021</a></td>
       <td><a href="https://git.schmarrn.dev/andi/aoc2022">aoc2022</a></td>
+      <td></td>
     </tr>
     <tr>
       <td>feldim2425</td>
@@ -69,7 +70,7 @@ My personal solutions of the [Advent of Code 2023](https://adventofcode.com/2023
     <tr>
       <td>daanbreur</td>
       <td></td>
-      <td colspan=3 align="center"><a href="https://github.com/daanbreur/AdventofCode">AdventofCode</a></td>
+      <td colspan=2 align="center"><a href="https://github.com/daanbreur/AdventofCode">AdventofCode</a></td>
       <td></td>
     </tr>
     <tr>
