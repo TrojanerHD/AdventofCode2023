@@ -29,8 +29,7 @@ My personal solutions of the [Advent of Code 2023](https://adventofcode.com/2023
     <tr>
       <td>Schlauer-Hax</td>
       <td></td>
-      <td colspan=2 align="center"><a href="https://github.com/Schlauer-Hax/advent-of-code">advent-of-code</a></td>
-      <td></td>
+      <td colspan=3 align="center"><a href="https://github.com/Schlauer-Hax/advent-of-code">advent-of-code</a></td>
     </tr>
     <tr>
       <td>networkException</td>
@@ -44,7 +43,7 @@ My personal solutions of the [Advent of Code 2023](https://adventofcode.com/2023
       <td></td>
       <td><a href="https://github.com/derNiklaas/Advent-Of-Code-2021">Advent-Of-Code-2021</a></td>
       <td><a href="https://github.com/derNiklaas/Advent-of-Code-2022">Advent-of-Code-2022</a></td>
-      <td></td>
+      <td><a href="https://github.com/derNiklaas/Advent-of-Code-2023">Advent-of-Code-2023</a></td>
     </tr>
     <tr>
       <td>LeMoonStar</td>
@@ -106,7 +105,7 @@ My personal solutions of the [Advent of Code 2023](https://adventofcode.com/2023
       <td></td>
       <td><a href="https://github.com/noeppi-noeppi/aoc/tree/master/2021">aoc/2021</a></td>
       <td><a href="https://github.com/noeppi-noeppi/aoc/tree/master/2022">aoc/2022</a></td>
-      <td></td>
+      <td><a href="https://github.com/noeppi-noeppi/aoc/tree/master/2023">aoc/2023</a></td>
     </tr>
     <tr>
       <td>Seralius</td>
