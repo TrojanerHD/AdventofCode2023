@@ -31,32 +31,37 @@ fn generate_code(days: Vec<(u32, String)>, current_day: u32) -> String {
     let mut out = String::new();
     let src = env::var("CARGO_MANIFEST_DIR").unwrap() + "/src";
     for (_, name) in &days {
-        writeln!(out, r#"#[path = "{src}/{name}.rs"] pub mod {name};"#).unwrap();
+        writeln!(out, r#"#[path = r"{src}/{name}.rs"] pub mod {name};"#).unwrap();
     }
-    writeln!(out, "mod runner {{").unwrap();
+    writeln!(
+        out,
+        "
+mod runner {{
+    pub fn current_day() -> u32 {{
+        {current_day}
+    }}"
+    )
+    .unwrap();
     for part in ["part1", "part2"] {
         writeln!(
             out,
             "
-    pub fn run_{part}(day: Option<u32>) {{
-        let day_num = day.unwrap_or({current_day});
-        match day_num {{"
+    pub fn run_{part}(day: u32, input: &str) -> String {{
+        match day {{"
         )
         .unwrap();
         for (day, name) in &days {
             writeln!(
                 out,
                 "
-            {day} => {{
-                crate::{name}::{part}();
-            }}"
+            {day} => crate::{name}::{part}(input),"
             )
             .unwrap();
         }
         writeln!(
             out,
             "
-            _ => unimplemented!(\"day {{day_num}} not implemented\"),
+            _ => unimplemented!(\"day {{day}} not implemented\"),
         }}
     }}"
         )

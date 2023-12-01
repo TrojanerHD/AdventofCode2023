@@ -1,5 +1,3 @@
-use std::fs;
-
 fn replace_number_words(input: String, number: i32) -> String {
     let word = match number {
         1 => "one",
@@ -17,8 +15,7 @@ fn replace_number_words(input: String, number: i32) -> String {
     return input.replace(word, format!("{}{}{}", word, number, word).as_str());
 }
 
-pub fn part1() {
-    let input = fs::read_to_string("input/day1.txt").unwrap();
+pub fn part1(input: &str) -> String {
     let split = input.lines();
     let new_lines = split.map(|line| {
         if line.is_empty() {
@@ -36,14 +33,13 @@ pub fn part1() {
         format!("{}{}", first.unwrap(), last.unwrap())
     });
 
-    println!(
+    format!(
         "{}",
         new_lines.fold(0, |a, b| a + b.parse::<i32>().unwrap())
-    );
+    )
 }
 
-pub fn part2() {
-    let input = fs::read_to_string("input/day1.txt").unwrap();
+pub fn part2(input: &str) -> String {
     let split = input.lines().map(|line| -> String {
         let mut local_line = line.to_owned();
         for i in 1..10 {
@@ -67,8 +63,8 @@ pub fn part2() {
         format!("{}{}", first.unwrap(), last.unwrap())
     });
 
-    println!(
+    format!(
         "{}",
         new_lines.fold(0, |a, b| a + b.parse::<i32>().unwrap())
-    );
+    )
 }
