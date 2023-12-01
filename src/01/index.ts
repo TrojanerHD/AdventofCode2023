@@ -44,10 +44,7 @@ export default class Day01 implements Day {
       return `${first}${last}`;
     });
     return [newLines1, newLines2].map((line: string[]): number =>
-      line.reduce<number>(
-        (a: number, b: string): number => Number(a) + Number(b),
-        0
-      )
+      line.reduce<number>((a: number, b: string): number => a + Number(b), 0)
     );
   }
 }
