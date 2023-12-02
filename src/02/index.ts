@@ -11,10 +11,14 @@ class CubeResult {
   _red: number = 0;
   _green: number = 0;
 
-  constructor(blue: number = 0, red: number = 0, green: number = 0) {
-    this._blue = blue;
-    this._red = red;
-    this._green = green;
+  constructor(
+    blue: string | number = 0,
+    red: string | number = 0,
+    green: string | number = 0
+  ) {
+    this._blue = Number(blue);
+    this._red = Number(red);
+    this._green = Number(green);
   }
 }
 
@@ -57,9 +61,9 @@ export default class Day02 implements Day {
       results: results.map(
         (result: string): CubeResult =>
           new CubeResult(
-            Number((result.match(/(\d*) blue/) ?? [0, 0])[1]),
-            Number((result.match(/(\d*) red/) ?? [0, 0])[1]),
-            Number((result.match(/(\d*) green/) ?? [0, 0])[1])
+            result.match(/(\d*) blue/)?.[1],
+            result.match(/(\d*) red/)?.[1],
+            result.match(/(\d*) green/)?.[1]
           )
       ),
     };
