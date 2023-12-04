@@ -50,7 +50,7 @@ My personal solutions of the [Advent of Code 2023](https://adventofcode.com/2023
       <td></td>
       <td><a href="https://github.com/LeMoonStar/AoC21">AoC21</a></td>
       <td><a href="https://github.com/LeMoonStar/AoC21">AoC22</a></td>
-      <td></td>
+      <td><a href="https://github.com/LeMoonStar/AoC23">AoC23</a></td>
     </tr>
     <tr>
       <td>andi-makes</td>
@@ -112,7 +112,7 @@ My personal solutions of the [Advent of Code 2023](https://adventofcode.com/2023
       <td></td>
       <td><a href="https://github.com/Seralius/AOC2021">AOC2021</a></td>
       <td></td>
-      <td></td>
+      <td><a href="https://github.com/Seralius/AOC2023">AOC2023</a></td>
     </tr>
   </tbody>
 </table>
