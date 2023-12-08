@@ -58,7 +58,7 @@ class Solution {
     const day: Day = new dayClass.default();
 
     const timeStart: number = performance.now();
-    const toLog: Response = day.main(data);
+    const toLog: Response = await day.main(data);
     const totalTime: number = performance.now() - timeStart;
 
     if (currentDayTime === undefined)

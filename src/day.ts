@@ -1,5 +1,5 @@
 import { Response } from './index';
 
 export default interface Day {
-  main(data: string): Response;
+  main(data: string): Response | Promise<Response>;
 }
