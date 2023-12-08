@@ -15,7 +15,7 @@ export default class Day08 implements Day {
       current = map.get(current)![instructions[i] === 'L' ? 0 : 1];
       i = (i + 1) % instructions.length;
     }
-		return steps;
+    return steps;
   }
   results = [0, 1];
   workers: { worker: Worker; working: boolean }[] = [];
@@ -41,10 +41,10 @@ export default class Day08 implements Day {
       i = (i + 1) % instructions.length;
     }
 
-		const leasts = []
-		for (const [i, curr] of endsWithA.entries()) {
-			leasts[i] = this.solveOne(instructions, map, curr);
-		}
+    const leasts = [];
+    for (const [i, curr] of endsWithA.entries()) {
+      leasts[i] = this.solveOne(instructions, map, curr);
+    }
 
     /* const workerURL = new URL('worker.ts', import.meta.url).href;
 
@@ -65,7 +65,12 @@ export default class Day08 implements Day {
     while (this.results.some((result) => result != this.results[0])) {
       await new Promise(resolve => setTimeout(resolve, 1000));
     } */
-    return [steps, `Please enter “lcm(${leasts.join(', ')})” into your favorite math tool (e. g. WolframAlpha)`];
+    return [
+      steps,
+      `Please enter “lcm(${leasts.join(
+        ', '
+      )})” into your favorite math tool (e. g. WolframAlpha)`,
+    ];
   }
   nextAttempt() {
     if (this.results.some((result) => result !== this.results[0])) {
