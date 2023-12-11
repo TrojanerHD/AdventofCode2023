@@ -17,7 +17,7 @@ export default class Day11 implements Day {
     let offset = 0;
     const galaxies1 = [];
     const galaxies2 = [];
-    const transposed: string[] = [];
+    const transposed: string[][] = [];
     for (let y = 0; y < lines.length; ++y) {
       for (let x = 0; x < lines[y].length; ++x) {
         if (transposed[x] === undefined) transposed[x] = [];
