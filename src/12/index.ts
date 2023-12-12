@@ -13,8 +13,8 @@ export default class Day12 implements Day {
     const workerURL = new URL('worker.ts', import.meta.url).href;
     for (const row of lines) {
       const worker = new Worker(workerURL);
-      worker.postMessage({ row, part: 0 });
       worker.addEventListener('message', this.onMessage.bind(this));
+      worker.postMessage({ row, part: 0 });
       ++this.#workers[0];
     }
     for (const row of lines) {
@@ -26,6 +26,7 @@ export default class Day12 implements Day {
         realSecond += `${second},`;
       }
       const worker = new Worker(workerURL);
+      worker.addEventListener('message', this.onMessage.bind(this));
       worker.postMessage({
         row: `${realFirst.slice(0, realFirst.length - 1)} ${realSecond.slice(
           0,
@@ -34,7 +35,11 @@ export default class Day12 implements Day {
         part: 1,
       });
       ++this.#workers[1];
+      while (this.#workers[1] - this.#terminated[1] > 10) {
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+      }
     }
+    console.log(`Started all ${this.#workers[0] + this.#workers[1]} workers`);
     while (
       this.#terminated[0] + this.#terminated[1] !==
       this.#workers[0] + this.#workers[1]
