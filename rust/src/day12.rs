@@ -1,74 +1,89 @@
+use std::collections::VecDeque;
+
 pub fn part1(input: &str) -> String {
-    let lines = input.lines().filter(|line| line.to_owned() != "");
+    let lines = input.lines().filter(|line| !line.is_empty());
     let mut result = 0;
 
     for line in lines {
-        let values = line.split_once(" ").unwrap();
-        result += calc_line(values);
+        let (spring_str, values_str) = line.split_once(' ').unwrap();
+        let tmp_result = rec(
+            '.',
+            spring_str,
+            values_str
+                .split(',')
+                .map(|it| it.parse::<u8>().unwrap())
+                .collect::<Vec<u8>>(),
+        );
+        result += tmp_result;
     }
     result.to_string()
 }
 
-fn calc_line((spring_str, value_str): (&str, &str)) -> u32 {
-    let question_marks: u32 = spring_str.matches('?').count() as u32;
-    let hashtags: u32 = spring_str.matches('#').count() as u32;
-
-    let values = value_str
-        .split(',')
-        .map(|value| value.parse::<u32>().unwrap())
-        .collect::<Vec<u32>>();
-
-    let mut result: u32 = 0;
-    let base: i64 = 2;
-
-    let combinations = base.pow(question_marks);
-
-    'combinationLoop: for i in 0..combinations {
-        let mut questions = 0;
-        let mut count = 0;
-        let mut tmp_values = values.iter().copied();
-        let binary = format!("{:b}", i);
-        if binary.matches('1').count() != (tmp_values.sum::<u32>() - hashtags).try_into().unwrap() {
-            continue;
-        }
-
-        tmp_values = values.iter().copied();
-
-        for mut char in spring_str.chars() {
-            if char == '?' {
-                questions += 1;
-                char = if i >> (question_marks - questions) & 1 != 0 {
-                    '#'
-                } else {
-                    '.'
-                };
-            }
-
-            match char {
-                '#' => {
-                    count += 1;
-                }
-                '.' => {
-                    if count != 0 && count != tmp_values.next().unwrap_or(0) {
-                        continue 'combinationLoop;
-                    }
-                    count = 0;
-                }
-                _ => {}
-            }
-        }
-
-        if count != 0 && count != tmp_values.next().unwrap_or(0) {
-            continue;
-        }
-
-        result += 1;
+fn rec(prev: char, left: &str, values: Vec<u8>) -> u32 {
+    if values.is_empty() || (values.len() == 1 && values[0] == 0) {
+        return if !left.contains('#') { 1 } else { 0 };
     }
-    result
+    let mut chars = left.chars();
+    let Some(next) = chars.next() else { return 0 };
+    let rest = &chars.collect::<String>();
+    if values[0] == 0 {
+        match next {
+            '#' => {
+                return 0;
+            }
+            _ => {
+                let mut new_values = VecDeque::from(values);
+                new_values.pop_front();
+                return rec('.', rest, Vec::from(new_values));
+            }
+        }
+    }
+    if prev == '#' && next == '.' {
+        return 0;
+    }
+
+    match next {
+        '.' => rec(next, rest, values),
+        '#' => rec(
+            next,
+            rest,
+            values
+                .into_iter()
+                .enumerate()
+                .map(|(i, it)| if i == 0 { it - 1 } else { it })
+                .collect(),
+        ),
+        '?' => {
+            if values[0] == 0 {
+                let mut new_values = VecDeque::from(values);
+                new_values.pop_front();
+                return rec('.', rest, Vec::from(new_values));
+            }
+
+            let mut result = 0;
+
+            if prev != '#' {
+                result = rec('.', rest, values.clone());
+            }
+
+            result
+                + rec(
+                    '#',
+                    rest,
+                    values
+                        .into_iter()
+                        .enumerate()
+                        .map(|(i, it)| if i == 0 { it - 1 } else { it })
+                        .collect(),
+                )
+        }
+
+        _ => panic!("Unknown symbol {}", next),
+    }
 }
 
 pub fn part2(input: &str) -> String {
-    let lines = input.lines().filter(|it| it.to_owned() != "");
+    let lines = input.lines().filter(|it| !it.is_empty());
 
     let mut result = 0;
 
@@ -76,11 +91,20 @@ pub fn part2(input: &str) -> String {
         let (spring_str, values_str) = line.split_once(' ').unwrap();
         let mut spring5 = Vec::new();
         let mut values5 = Vec::new();
-        for _ in 0..4 {
+        for _ in 0..5 {
             spring5.push(spring_str);
             values5.push(values_str);
         }
-        result += calc_line((&spring5.join("?"), &values5.join(",")));
+        let tmp_result = rec(
+            '.',
+            &spring5.join("?"),
+            values5
+                .join(",")
+                .split(',')
+                .map(|it| it.parse::<u8>().unwrap())
+                .collect::<Vec<u8>>(),
+        );
+        result += tmp_result;
     }
     result.to_string()
 }
