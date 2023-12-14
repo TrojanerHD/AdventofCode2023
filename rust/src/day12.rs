@@ -1,4 +1,4 @@
-use std::collections::VecDeque;
+use std::collections::{HashMap, VecDeque};
 
 pub fn part1(input: &str) -> String {
     let lines = input.lines().filter(|line| !line.is_empty());
@@ -6,7 +6,9 @@ pub fn part1(input: &str) -> String {
 
     for line in lines {
         let (spring_str, values_str) = line.split_once(' ').unwrap();
+        let mut cache: HashMap<(char, String, Vec<u8>), u64> = HashMap::new();
         let tmp_result = rec(
+            &mut cache,
             '.',
             spring_str,
             values_str
@@ -19,13 +21,34 @@ pub fn part1(input: &str) -> String {
     result.to_string()
 }
 
-fn rec(prev: char, left: &str, values: Vec<u8>) -> u32 {
+fn cache_or_retrieve(
+    cache: &mut HashMap<(char, String, Vec<u8>), u64>,
+    prev: char,
+    left: &str,
+    values: Vec<u8>,
+) -> u64 {
+    let solution = cache.get(&(prev, left.to_owned(), values.clone()));
+    if solution.is_some() {
+        return *solution.unwrap();
+    }
+
+    let res = rec(cache, prev, left, values.clone());
+    cache.insert((prev, left.to_owned(), values), res);
+    res
+}
+
+fn rec(
+    cache: &mut HashMap<(char, String, Vec<u8>), u64>,
+    prev: char,
+    left: &str,
+    values: Vec<u8>,
+) -> u64 {
     if values.is_empty() || (values.len() == 1 && values[0] == 0) {
         return if !left.contains('#') { 1 } else { 0 };
     }
     let mut chars = left.chars();
     let Some(next) = chars.next() else { return 0 };
-    let rest = &chars.collect::<String>();
+    let rest = chars.collect::<String>();
     if values[0] == 0 {
         match next {
             '#' => {
@@ -34,7 +57,7 @@ fn rec(prev: char, left: &str, values: Vec<u8>) -> u32 {
             _ => {
                 let mut new_values = VecDeque::from(values);
                 new_values.pop_front();
-                return rec('.', rest, Vec::from(new_values));
+                return cache_or_retrieve(cache,'.', &rest, Vec::from(new_values));
             }
         }
     }
@@ -43,10 +66,11 @@ fn rec(prev: char, left: &str, values: Vec<u8>) -> u32 {
     }
 
     match next {
-        '.' => rec(next, rest, values),
-        '#' => rec(
+        '.' => cache_or_retrieve(cache, next, &rest, values),
+        '#' => cache_or_retrieve(
+            cache,
             next,
-            rest,
+            &rest,
             values
                 .into_iter()
                 .enumerate()
@@ -57,19 +81,20 @@ fn rec(prev: char, left: &str, values: Vec<u8>) -> u32 {
             if values[0] == 0 {
                 let mut new_values = VecDeque::from(values);
                 new_values.pop_front();
-                return rec('.', rest, Vec::from(new_values));
+                return cache_or_retrieve(cache, '.', &rest, Vec::from(new_values));
             }
 
             let mut result = 0;
 
             if prev != '#' {
-                result = rec('.', rest, values.clone());
+                result = cache_or_retrieve(cache, '.', &rest, values.clone());
             }
 
             result
-                + rec(
+                + cache_or_retrieve(
+                    cache,
                     '#',
-                    rest,
+                    &rest,
                     values
                         .into_iter()
                         .enumerate()
@@ -95,7 +120,9 @@ pub fn part2(input: &str) -> String {
             spring5.push(spring_str);
             values5.push(values_str);
         }
+        let mut cache: HashMap<(char, String, Vec<u8>), u64> = HashMap::new(); 
         let tmp_result = rec(
+            &mut cache,
             '.',
             &spring5.join("?"),
             values5
