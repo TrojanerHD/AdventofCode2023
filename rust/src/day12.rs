@@ -27,9 +27,9 @@ fn cache_or_retrieve(
     left: &str,
     values: Vec<u8>,
 ) -> u64 {
-    let solution = cache.get(&(prev, left.to_owned(), values.clone()));
-    if solution.is_some() {
-        return *solution.unwrap();
+    let solution_opt = cache.get(&(prev, left.to_owned(), values.clone()));
+    if let Some(solution) = solution_opt {
+        return *solution;
     }
 
     let res = rec(cache, prev, left, values.clone());
@@ -57,7 +57,7 @@ fn rec(
             _ => {
                 let mut new_values = VecDeque::from(values);
                 new_values.pop_front();
-                return cache_or_retrieve(cache,'.', &rest, Vec::from(new_values));
+                return cache_or_retrieve(cache, '.', &rest, Vec::from(new_values));
             }
         }
     }
@@ -120,7 +120,7 @@ pub fn part2(input: &str) -> String {
             spring5.push(spring_str);
             values5.push(values_str);
         }
-        let mut cache: HashMap<(char, String, Vec<u8>), u64> = HashMap::new(); 
+        let mut cache: HashMap<(char, String, Vec<u8>), u64> = HashMap::new();
         let tmp_result = rec(
             &mut cache,
             '.',
