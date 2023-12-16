@@ -49,12 +49,13 @@ export default class Day16 implements Day {
           for (let x = 0; x < this.lines![0].length; ++x)
             line += charged.some((point) => point._x === x && point._y === y)
               ? '#'
-              : this.points.find((point) => point._x === x && point._y === y)?._val ?? '.';
+              : this.points.find((point) => point._x === x && point._y === y)
+                  ?._val ?? '.';
 
           console.log(line);
         }
-				console.log('------------------------------------')
-			}
+        console.log('------------------------------------');
+      }
       for (const beam of beams) {
         let pt;
         if (
@@ -156,9 +157,9 @@ export default class Day16 implements Day {
     this.lines = data.split('\n').filter((it) => it !== '');
     for (let y = 0; y < this.lines.length; ++y)
       for (const [x, char] of this.lines[y].split('').entries())
-        this.points.push(new Point(x, y, char));
+        if (char !== '') this.points.push(new Point(x, y, char));
 
-		const part1 = this.simulateBeam(0, 0, Dir.RIGHT)
+    const part1 = this.simulateBeam(0, 0, Dir.RIGHT);
 
     const allPart2: Point[] = [];
     let percent = 0;
