@@ -61,7 +61,7 @@ export default class Day16 implements Day {
         if (
           (pt = this.points.find(
             (point) => point._x === beam._x && point._y === beam._y
-          ))
+          )) !== undefined
         ) {
           switch (pt._val) {
             case '/':
@@ -113,19 +113,19 @@ export default class Day16 implements Day {
         switch (beam._dir) {
           case Dir.UP:
             --beam._y;
-            beam._dead ||= beam._y < 0;
+            beam._dead = beam._y < 0;
             break;
           case Dir.LEFT:
             --beam._x;
-            beam._dead ||= beam._x < 0;
+            beam._dead = beam._x < 0;
             break;
           case Dir.RIGHT:
             ++beam._x;
-            beam._dead ||= beam._x >= this.lines![0].length;
+            beam._dead = beam._x >= this.lines![0].length;
             break;
           case Dir.DOWN:
             ++beam._y;
-            beam._dead ||= beam._y >= this.lines!.length;
+            beam._dead = beam._y >= this.lines!.length;
             break;
         }
 
@@ -136,11 +136,7 @@ export default class Day16 implements Day {
             (point) => point._x === beam._x && point._y === beam._y
           )) !== -1
         ) {
-          if (
-            charged.some(
-              (point, i) => i === found && point._dirs.includes(beam._dir)
-            )
-          ) {
+          if (charged[found]._dirs.includes(beam._dir)) {
             beam._dead = true;
             continue;
           }
@@ -157,7 +153,7 @@ export default class Day16 implements Day {
     this.lines = data.split('\n').filter((it) => it !== '');
     for (let y = 0; y < this.lines.length; ++y)
       for (const [x, char] of this.lines[y].split('').entries())
-        if (char !== '') this.points.push(new Point(x, y, char));
+        if (char !== '.') this.points.push(new Point(x, y, char));
 
     const part1 = this.simulateBeam(0, 0, Dir.RIGHT);
 
