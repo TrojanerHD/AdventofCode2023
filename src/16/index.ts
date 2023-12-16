@@ -158,7 +158,6 @@ export default class Day16 implements Day {
       for (const [x, char] of this.lines[y].split('').entries())
         this.points.push(new Point(x, y, char));
 
-    const part2 = this.simulateBeam(109, 108, Dir.LEFT, false);
 		const part1 = this.simulateBeam(0, 0, Dir.RIGHT)
 
     const allPart2: Point[] = [];
