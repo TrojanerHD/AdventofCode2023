@@ -140,7 +140,6 @@ export default class Day07 implements Day {
       return 0;
     });
 
-    console.log('test');
     // for (let i = 0; i < cardValues.length - 1; ++i) {
     //   for (let j = i + 1; j < cardValues.length; ++j) {
     //     for (let k = 1; k < 6; ++k) {
