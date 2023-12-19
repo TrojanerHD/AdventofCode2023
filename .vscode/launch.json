@@ -13,7 +13,7 @@
       "program": "${workspaceFolder}/src/index.ts",
 
       // The arguments to pass to the program, if any.
-      "args": ["17"],
+      "args": ["18"],
 
       // The working directory of the program.
       "cwd": "${workspaceFolder}",
